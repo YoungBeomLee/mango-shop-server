@@ -2,7 +2,6 @@
   "name": "mango-shop-server",
   "version": "1.0.0",
   "main": "index.js",
-  "description": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon index.js"
@@ -24,5 +23,6 @@
   "bugs": {
     "url": "https://github.com/YoungBeomLee/mango-shop-server/issues"
   },
-  "homepage": "https://github.com/YoungBeomLee/mango-shop-server#readme"
+  "homepage": "https://github.com/YoungBeomLee/mango-shop-server#readme",
+  "description": ""
 }
