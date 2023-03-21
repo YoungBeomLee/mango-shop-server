@@ -3,7 +3,7 @@ const cors = require("cors");
 const models = require("./models");
 const multer = require("multer");
 const app = express();
-const port = 8080;
+const port = process.env.PORT || 8080;
 
 const upload = multer({
   storage: multer.diskStorage({
