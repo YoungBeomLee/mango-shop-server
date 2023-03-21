@@ -19,11 +19,24 @@ const upload = multer({
 app.use(express.json());
 app.use(cors());
 app.use("/uploads", express.static("uploads"));
-
+app.get('/banners',(req,res)=>{
+	models.Banner.findAll({
+		limit: 2,	//파일 2개까지 찾음 , 데이터베이스에서는 Banners로 s가 자동으로 붙음.
+	  })
+		.then((result) => {
+		  res.send({
+			banners: result, //통신성공시 banner에 result 할당
+		  });
+		})
+		.catch((error) => {
+		  console.error(error);
+		  res.status(500).send("에러가 발생했습니다");
+		});
+})
 app.get("/products", (req, res) => {
   models.Product.findAll({
     order: [["createdAt", "DESC"]],
-    attributes: ["id", "name", "price", "seller", "imageUrl", "createdAt"],
+    attributes: ["id", "name", "price", "seller", "imageUrl", "createdAt","soldout"],
   })
     .then((result) => {
       console.log("product 조회결과:", result);
@@ -83,6 +96,29 @@ app.post("/products", (req, res) => {
     .catch((error) => {
       console.error(error);
       //res.send("상품업로드에 문제가 발생했습니다");
+    });
+});
+//api 요청 -> 전달 -> 응답
+app.post("/purchase/:id", (req, res) => {
+  const { id } = req.params;
+  models.Product.update(
+    {
+      soldout: 1,
+    },
+    {
+      where: {
+        id,
+      },
+    }
+  )
+    .then((result) => {
+      res.send({
+        result: true,
+      });
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).send("에러가 발생했습니다.");
     });
 });
 
